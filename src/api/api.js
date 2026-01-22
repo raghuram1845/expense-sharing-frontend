@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL:
-    "https://expense-sharing-backend-uu00.onrender.com/" ,
+    baseURL:import.meta.env.VITE_API_BASE_URL ,
     headers:{
         "content-Type": "application/json",
     },
