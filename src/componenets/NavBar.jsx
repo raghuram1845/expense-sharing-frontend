@@ -1,36 +1,65 @@
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-export default function NavBar() {
-  const linkStyle = ({ isActive }) => ({
-    padding: "14px 18px",
-    textDecoration: "none",
-    fontWeight: "bold",
-    color: isActive ? "#00c853" : "white",
-  });
+export default function Navbar() {
+  const location = useLocation();
+
+  const links = [
+    { name: "Users", path: "/users" },
+    { name: "Groups", path: "/groups" },
+    { name: "Expenses", path: "/expenses" },
+    { name: "Balances", path: "/balances" },
+  ];
 
   return (
-    <div
-      style={{
-        background: "#111",
-        padding: "10px 0",
-        display: "flex",
-        justifyContent: "center",
-        gap: "10px",
-        fontSize: "18px",
-      }}
-    >
-      <NavLink to="/users" style={linkStyle}>
-        Users
-      </NavLink>
-      <NavLink to="/groups" style={linkStyle}>
-        Groups
-      </NavLink>
-      <NavLink to="/expenses" style={linkStyle}>
-        Expenses
-      </NavLink>
-      <NavLink to="/balances" style={linkStyle}>
-        Balances
-      </NavLink>
+    <div style={styles.navWrapper}>
+      <div style={styles.navbar}>
+        {links.map((l) => (
+          <Link
+            key={l.path}
+            to={l.path}
+            style={{
+              ...styles.link,
+              ...(location.pathname === l.path ? styles.active : {}),
+            }}
+          >
+            {l.name}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
+
+const styles = {
+  navWrapper: {
+    width: "100%",
+    background: "#111",
+    display: "flex",
+    justifyContent: "center",
+  },
+
+
+  navbar: {
+    display: "flex",
+    gap: "25px",
+    padding: "15px 10px",
+    overflowX: "auto",
+    whiteSpace: "nowrap",
+    maxWidth: "100%",
+    scrollbarWidth: "none", 
+  },
+
+  link: {
+    color: "white",
+    textDecoration: "none",
+    fontSize: "20px",
+    fontWeight: "bold",
+    padding: "6px 10px",
+    borderRadius: "8px",
+  },
+
+  active: {
+    color: "#00ff00",
+    background: "rgba(255,255,255,0.1)",
+  },
+};
