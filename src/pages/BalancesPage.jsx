@@ -9,7 +9,7 @@ export default function BalancesPage() {
   const [settlements, setSettlements] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fetch all groups
+  
   const fetchGroups = async () => {
     try {
       const res = await api.get("/groups");
@@ -20,7 +20,7 @@ export default function BalancesPage() {
     }
   };
 
-  // ✅ Fetch balances + settlements for selected group
+  
   const fetchBalancesAndSettlements = async (groupId) => {
     if (!groupId) return;
 
@@ -63,7 +63,7 @@ export default function BalancesPage() {
           Balances
         </h1>
 
-        {/* ✅ Group dropdown */}
+        
         <div style={{ marginTop: 15, marginBottom: 25 }}>
           <label style={{ marginRight: 10, fontWeight: "bold" }}>
             Select Group:
@@ -93,7 +93,7 @@ export default function BalancesPage() {
           <p style={{ marginTop: 20, fontWeight: "bold" }}>Loading...</p>
         )}
 
-        {/* ✅ Balances Table */}
+        
         <h2 style={{ marginTop: 10, fontSize: 22, fontWeight: "bold" }}>
           Group Balances
         </h2>
@@ -140,7 +140,7 @@ export default function BalancesPage() {
           </table>
         )}
 
-        {/* ✅ Settlements */}
+        
         <h2 style={{ marginTop: 35, fontSize: 22, fontWeight: "bold" }}>
           Settlements
         </h2>
@@ -173,7 +173,7 @@ export default function BalancesPage() {
   );
 }
 
-/* ✅ Styles */
+
 const thStyle = {
   border: "1px solid #ddd",
   padding: 12,

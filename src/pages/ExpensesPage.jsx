@@ -6,19 +6,19 @@ export default function ExpensesPage() {
   const [groups, setGroups] = useState([]);
   const [groupId, setGroupId] = useState("");
 
-  // ✅ group members (only)
+  
   const [groupUsers, setGroupUsers] = useState([]);
 
   const [paidByUserId, setPaidByUserId] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
 
-  // ✅ ONLY these values as per backend
-  const [splitType, setSplitType] = useState("EQUAL"); // EQUAL | EXACT | PERCENTAGE
+  
+  const [splitType, setSplitType] = useState("EQUAL"); 
 
-  // for EXACT / PERCENTAGE
-  const [exactAmounts, setExactAmounts] = useState({}); // { "1": 200 }
-  const [percentages, setPercentages] = useState({});   // { "1": 50 }
+  
+  const [exactAmounts, setExactAmounts] = useState({});
+  const [percentages, setPercentages] = useState({});
 
   const [loading, setLoading] = useState(false);
 
@@ -48,7 +48,7 @@ export default function ExpensesPage() {
     background: "#fff",
   };
 
-  // ✅ Fetch groups
+  
   const fetchGroups = async () => {
     try {
       const res = await api.get("/groups");
@@ -59,7 +59,7 @@ export default function ExpensesPage() {
     }
   };
 
-  // ✅ Fetch group details => members
+  
   const fetchGroupMembers = async (gid) => {
     if (!gid) {
       setGroupUsers([]);
@@ -67,7 +67,7 @@ export default function ExpensesPage() {
     }
 
     try {
-      // Assumption: GET /groups/{id} returns object with "members"
+      
       const res = await api.get(`/groups/${gid}`);
       setGroupUsers(res.data?.members || []);
     } catch (err) {
@@ -80,7 +80,7 @@ export default function ExpensesPage() {
     fetchGroups();
   }, []);
 
-  // when group changes => fetch members + reset form
+  
   useEffect(() => {
     fetchGroupMembers(groupId);
 
@@ -92,7 +92,7 @@ export default function ExpensesPage() {
     setPercentages({});
   }, [groupId]);
 
-  // reset split maps when splitType changes
+  
   useEffect(() => {
     setExactAmounts({});
     setPercentages({});
@@ -128,7 +128,7 @@ export default function ExpensesPage() {
       let sum = 0;
       groupUserIds.forEach((id) => (sum += Number(exactAmounts[String(id)] || 0)));
 
-      // compare with 2 decimals to avoid floating issues
+      
       if (sum.toFixed(2) !== amt.toFixed(2)) {
         alert(`❌ EXACT split total must equal amount.\nAmount = ${amt}\nSplit sum = ${sum}`);
         return false;
@@ -159,15 +159,15 @@ export default function ExpensesPage() {
         amount: Number(amount),
         paidByUserId: Number(paidByUserId),
         groupId: Number(groupId),
-        splitType, // ✅ EQUAL | EXACT | PERCENTAGE
+        splitType,
       };
 
-      // ✅ EQUAL requires participantUserIds
+      
       if (splitType === "EQUAL") {
         payload.participantUserIds = groupUserIds;
       }
 
-      // ✅ EXACT requires exactAmounts object
+      
       if (splitType === "EXACT") {
         const obj = {};
         groupUserIds.forEach((id) => {
@@ -176,7 +176,7 @@ export default function ExpensesPage() {
         payload.exactAmounts = obj;
       }
 
-      // ✅ PERCENTAGE requires percentages object
+      
       if (splitType === "PERCENTAGE") {
         const obj = {};
         groupUserIds.forEach((id) => {
@@ -187,12 +187,12 @@ export default function ExpensesPage() {
 
       console.log("✅ POST /expenses payload:", payload);
 
-      // ✅ correct endpoint is /expenses (NOT /expenses/{groupId})
+      
       await api.post("/expenses", payload);
 
       alert("Expense Added ✅");
 
-      // reset form (keep group selected)
+      
       setPaidByUserId("");
       setAmount("");
       setDescription("");
@@ -228,7 +228,7 @@ export default function ExpensesPage() {
               ))}
             </select>
 
-            {/* Paid By */}
+            
             <select
               style={inputStyle}
               value={paidByUserId}
@@ -243,7 +243,7 @@ export default function ExpensesPage() {
               ))}
             </select>
 
-            {/* Split Type */}
+            
             <select
               style={inputStyle}
               value={splitType}
@@ -271,7 +271,7 @@ export default function ExpensesPage() {
               disabled={!groupId}
             />
 
-            {/* EXACT / PERCENTAGE inputs */}
+            
             {(splitType === "EXACT" || splitType === "PERCENTAGE") && (
               <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 14 }}>
                 <h4 style={{ marginBottom: 10 }}>
